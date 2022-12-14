@@ -26,7 +26,7 @@ int main(int argc, char **argv)
 
   ros::Time prevTime = ros::Time::now();
 
-  ros::Rate loop_rate(10);
+  ros::Rate loop_rate(100);
 
   while (ros::ok())
   {
