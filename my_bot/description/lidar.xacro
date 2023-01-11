@@ -5,6 +5,7 @@
         <parent link="chassis"/>
         <child link="laser_frame"/>
         <origin xyz="0.122 0 0.212" rpy="0 0 0"/>
+        
     </joint>
 
     <link name="laser_frame">

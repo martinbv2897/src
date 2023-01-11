@@ -7,7 +7,7 @@
     <xacro:property name="chassis_length" value="0.23"/>
     <xacro:property name="chassis_width" value="0.19"/>
     <xacro:property name="chassis_height" value="0.02"/>
-    <xacro:property name="chassis_mass" value="1.335"/>
+    <xacro:property name="chassis_mass" value="2"/>
     <xacro:property name="wheel_radius" value="0.03325"/>
     <xacro:property name="wheel_thickness" value="0.0266"/>
     <xacro:property name="wheel_mass" value="0.03"/>
@@ -178,6 +178,22 @@
         </xacro:inertial_sphere>
     </link>
 
+    <link name="imu_link"/>
+
+    <joint
+        name="imu_joint"
+        type="fixed">
+        <origin
+        xyz="0.0 0 0.0"
+        rpy="0 -0.07 0" />
+        <parent
+        link="base_link" />
+        <child
+        link="imu_link" />
+        <axis
+        xyz="1 0 0" />
+    </joint>
+    
     <gazebo reference="caster_wheel">
         <material>Gazebo/White</material>
         <mu1 value="0.001"/>

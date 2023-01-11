@@ -41,9 +41,18 @@ def generate_launch_description():
         parameters=[{'robot_description': robot_description},
                     controller_params_file]
     )
-
+    # robot_localization_file_path = os.path.join(get_package_share_directory(package_name), 'config/ekf.yaml') 
+    
     delayed_controller_manager = TimerAction(period=3.0, actions=[controller_manager])
-
+    
+    twist_mux_params = os.path.join(get_package_share_directory(package_name),'config','twist_mux.yaml')
+    
+    twist_mux = Node(
+            package="twist_mux",
+            executable="twist_mux",
+            parameters=[twist_mux_params],
+            remappings=[('/cmd_vel_out','/diff_cont/cmd_vel_unstamped')]
+        )
     diff_drive_spawner = Node(
         package="controller_manager",
         executable="spawner.py",
@@ -69,7 +78,12 @@ def generate_launch_description():
             on_start=[joint_broad_spawner],
         )
     )
-
+    # start_robot_localization_cmd = Node(
+    #     package='robot_localization',
+    #     executable='ekf_node',
+    #     name='ekf_filter_node',
+    #     output='screen',
+    #     parameters=[robot_localization_file_path])    
 
     # Code for delaying a node (I haven't tested how effective it is)
     # 
@@ -92,6 +106,8 @@ def generate_launch_description():
     # Launch them all!
     return LaunchDescription([
         rsp,
+        # start_robot_localization_cmd,
+        twist_mux,
         delayed_controller_manager,
         delayed_diff_drive_spawner,
         delayed_joint_broad_spawner
